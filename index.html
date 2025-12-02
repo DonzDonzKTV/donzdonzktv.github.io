@@ -1,147 +1,1977 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DONZ 包廂預約狀況總覽</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
-    }
-    header {
-      text-align: center;
-      background: linear-gradient(to right, #f5e6f0, #fdebd3);
-      padding: 1em;
-    }
-    header img {
-      max-height: 80px;
-    }
-    h1 {
-      font-size: 1.8em;
-      margin: 0.5em 0 0;
-    }
-    p.description {
-      color: #666;
-      font-size: 0.9em;
-      margin-top: 0.2em;
-      line-height: 1.5em;
-    }
-    p.description span {
-      color: #cc0000;
-      font-weight: 500;
-    }
-    main {
-      padding: 1em;
-      text-align: center;
-    }
-    .calendar-wrapper iframe {
-      width: 100%;
-      height: 800px;
-      border: none;
-      margin-top: 1em;
-    }
-    .selector {
-      margin: 1em 0;
-      font-size: 1em;
-    }
-    .rooms {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-      margin-top: 2em;
-    }
-    .room-card {
-      border-radius: 10px;
-      padding: 1em;
-      color: white;
-      min-width: 200px;
-      flex: 1 0 200px;
-    }
-    .A { background: #d29ec8; }
-    .B { background: #f5b88f; }
-    .C { background: #f5c19d; }
-    .D { background: #e69393; }
-    .E { background: #f5d95b; color: #333; }
-    .F { background: #cda8f3; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DONZ 日韓 KTV | 讓我們一起 DONZ DONZ 吧！</title>
+    
+    <!-- SEO & Open Graph -->
+    <meta name="description" content="DONZ 日韓 KTV - 台北最潮日韓 KTV！JOYSOUND & DAM 原裝機台，動漫新番、JPOP、韓團主打即時更新。捷運圓山站5分鐘，6間主題包廂任你選！">
+    <meta name="keywords" content="DONZ, 日韓KTV, 台北KTV, JOYSOUND, DAM, 圓山KTV, 主題包廂, 日本KTV">
+    <meta property="og:title" content="DONZ 日韓 KTV | 讓我們一起 DONZ DONZ 吧！">
+    <meta property="og:description" content="台北最潮日韓 KTV！JOYSOUND & DAM 原裝機台，6間主題包廂任你選！">
+    <meta property="og:image" content="1920x1080-1124.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://donzktv.com">
+    
+    <!-- Favicon (請替換為你的 logo) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           DONZ 品牌設計系統 v2.0
+           ======================================== */
+        
+        :root {
+            --primary: #FF9A9E;
+            --primary-dark: #e8868a;
+            --secondary: #A18CD1;
+            --secondary-dark: #8a74b8;
+            --accent: #FBC2EB;
+            --accent-light: #ffd6f0;
+            --yellow: #FFFACD;
+            --cyan: #00d4ff;
+            --text-dark: #444444;
+            --text-light: #ffffff;
+            --text-muted: #888888;
+            --bg-warm: #fdfbf7;
+            --bg-white: #ffffff;
+            --gradient-brand: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-hero: linear-gradient(135deg, rgba(161, 140, 209, 0.9) 0%, rgba(255, 154, 158, 0.85) 100%);
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 60px rgba(255, 154, 158, 0.3);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --radius-full: 50px;
+        }
 
-    .booking-link {
-      margin-top: 2em;
-      text-align: center;
-    }
-    .booking-link a {
-      display: inline-block;
-      background-color: #ec4899;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-    .booking-link a:hover {
-      background-color: #be185d;
-    }
-  </style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Noto Sans TC', sans-serif;
+            background: var(--bg-warm);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           導覽列 - 含漢堡選單
+           ======================================== */
+        
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 10px 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 2rem;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        nav.scrolled .logo-img {
+            height: 38px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:not(.btn-reserve)::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-brand);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:not(.btn-reserve):hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-reserve {
+            background: var(--gradient-brand);
+            color: white !important;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.5);
+        }
+
+        /* 漢堡選單按鈕 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* 手機版選單 */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 75%;
+            max-width: 320px;
+            height: 100vh;
+            background: white;
+            padding: 100px 40px 40px;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 18px 0;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .mobile-menu .btn-reserve-mobile {
+            display: block;
+            margin-top: 30px;
+            background: var(--gradient-brand);
+            color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+        }
+
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+        }
+
+        /* ========================================
+           Hero 區塊 - 保留原本底圖
+           ======================================== */
+        
+        .hero {
+            height: 70vh;
+            min-height: 500px;
+            max-height: 700px;
+            background-image: url('1920x1080-1124.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3), 
+                         3px 3px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 30px;
+            background: white;
+            color: var(--secondary);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 飄浮圓點 - 半透明白色 */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 60px; height: 60px; top: 15%; left: 8%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 90px; height: 90px; top: 55%; right: 8%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 50px; height: 50px; bottom: 25%; left: 15%; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 70px; height: 70px; top: 25%; right: 20%; animation-delay: 1s; }
+        .bubble:nth-child(5) { width: 35px; height: 35px; bottom: 35%; right: 12%; animation-delay: 3s; }
+
+        /* 飄浮音符和麥克風 - 半透明白色 SVG */
+        .hero-float-icon {
+            position: absolute;
+            fill: rgba(255, 255, 255, 0.25);
+            z-index: 1;
+            animation: floatIcon 7s infinite ease-in-out;
+        }
+
+        .hero-float-icon:nth-of-type(1) { width: 50px; height: 50px; top: 20%; left: 18%; animation-delay: 0.5s; }
+        .hero-float-icon:nth-of-type(2) { width: 60px; height: 60px; top: 40%; right: 15%; animation-delay: 2.5s; }
+        .hero-float-icon:nth-of-type(3) { width: 40px; height: 40px; bottom: 30%; left: 25%; animation-delay: 1.5s; }
+        .hero-float-icon:nth-of-type(4) { width: 55px; height: 55px; bottom: 20%; right: 22%; animation-delay: 3.5s; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        /* 滾動提示箭頭 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-hint span {
+            display: block;
+            width: 25px;
+            height: 25px;
+            border-right: 3px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+            transform: rotate(45deg);
+        }
+
+        /* ========================================
+           特色區塊
+           ======================================== */
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 60px 40px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 50px 30px;
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-box.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: var(--gradient-brand);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+        }
+
+        .feature-title {
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-box p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           包廂介紹區塊
+           ======================================== */
+        
+        .rooms-section {
+            padding: 50px 20px 100px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        /* 包廂 Tab 導覽 */
+        .room-tabs-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding: 0 10px;
+        }
+
+        .tab-btn-room {
+            background: white;
+            border: 2px solid #eee;
+            padding: 14px 28px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dark);
+            border-radius: var(--radius-full);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .tab-btn-room:hover:not(.active) {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn-room.active {
+            background: var(--gradient-brand);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* 包廂卡片 */
+        .room-detail-card {
+            display: none;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .room-detail-card.active {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        /* ✅ 1:1 正方形圖片區域 */
+        .room-carousel-area {
+            position: relative;
+            background: #f5f5f5;
+        }
+
+        .room-carousel-area::before {
+            content: '';
+            display: block;
+            padding-top: 100%; /* 1:1 比例 */
+        }
+
+        .carousel-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .carousel-inner:hover {
+            transform: scale(1.02);
+        }
+
+        /* 輪播按鈕 */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: var(--gradient-brand);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+
+        /* 輪播控制區 */
+        .carousel-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+
+        .carousel-hint {
+            color: white;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .carousel-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .carousel-dots span.active-dot {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* 包廂資訊區 */
+        .room-text-info {
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .room-tag {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .room-text-info h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 15px 0 10px;
+            color: var(--text-dark);
+        }
+
+        .machine-info {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .room-text-info > p {
+            margin-top: 20px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            flex-grow: 1;
+        }
+
+        .room-price-info {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f5 0%, #f5f0ff 100%);
+            border-radius: var(--radius-sm);
+        }
+
+        .room-price-info h4 {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .room-price-info ul {
+            list-style: none;
+            color: var(--text-dark);
+        }
+
+        .room-price-info li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .room-price-info li::before {
+            content: '🎵';
+            position: absolute;
+            left: 0;
+        }
+
+        .btn-reserve-room {
+            display: block;
+            margin-top: 30px;
+            background: var(--gradient-brand);
+            color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.35);
+            transition: all 0.3s;
+        }
+
+        .btn-reserve-room:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 154, 158, 0.5);
+        }
+
+        /* 訂位說明 & 歡唱規範 按鈕 */
+        .info-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .btn-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--secondary);
+            background: white;
+            color: var(--secondary);
+        }
+
+        .btn-info:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(161, 140, 209, 0.3);
+        }
+
+        .btn-info svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* 預約區塊的說明按鈕 - 白色邊框版本 */
+        .info-buttons-light {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn-info-light {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .btn-info-light:hover {
+            background: white;
+            color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-info-light svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* 圖片彈出 Lightbox (訂位說明/歡唱規範) */
+        .info-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-lightbox-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .info-lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 45px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-lightbox-close:hover {
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+
+        /* ========================================
+           預約區塊 - 使用品牌底圖
+           ======================================== */
+        
+        .booking-section {
+            background-image: url('1920x1080-1124.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 飄浮圓點 */
+        .booking-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            z-index: 1;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .booking-bubble:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s; }
+        .booking-bubble:nth-child(2) { width: 60px; height: 60px; bottom: 15%; right: 8%; animation-delay: 2s; }
+        .booking-bubble:nth-child(3) { width: 100px; height: 100px; top: 50%; right: 5%; animation-delay: 1s; }
+        .booking-bubble:nth-child(4) { width: 50px; height: 50px; bottom: 20%; left: 15%; animation-delay: 3s; }
+
+        /* 飄浮音符和麥克風 - 半透明白色 SVG */
+        .booking-float-icon {
+            position: absolute;
+            fill: rgba(255, 255, 255, 0.25);
+            z-index: 1;
+            animation: floatIcon 7s infinite ease-in-out;
+        }
+
+        .booking-float-icon:nth-of-type(1) { width: 55px; height: 55px; top: 15%; left: 12%; animation-delay: 0.5s; }
+        .booking-float-icon:nth-of-type(2) { width: 65px; height: 65px; bottom: 25%; right: 15%; animation-delay: 2s; }
+        .booking-float-icon:nth-of-type(3) { width: 45px; height: 45px; top: 60%; left: 8%; animation-delay: 3.5s; }
+
+        .booking-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .booking-section h2 {
+            color: white;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3),
+                         3px 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .booking-section p {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-booking-main {
+            display: inline-block;
+            background: white;
+            color: var(--secondary);
+            padding: 20px 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+        }
+
+        .btn-booking-main:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ========================================
+           聯絡資訊區塊 - BN 底圖 + 柔和遮罩
+           ======================================== */
+        
+        .contact-section {
+            background-image: url('BN.jpg');
+            background-size: 180%;
+            background-position: center;
+            padding: 80px 20px;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 白色半透明遮罩 + 高模糊 */
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1;
+        }
+
+        /* 飄浮音符 */
+        .contact-note {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.4;
+            color: var(--secondary);
+            z-index: 2;
+            animation: floatNote 6s infinite ease-in-out;
+        }
+
+        .contact-note:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
+        .contact-note:nth-child(2) { top: 30%; right: 10%; animation-delay: 1.5s; font-size: 1.2rem; }
+        .contact-note:nth-child(3) { bottom: 20%; left: 12%; animation-delay: 3s; font-size: 1.1rem; }
+        .contact-note:nth-child(4) { top: 20%; right: 18%; animation-delay: 2s; font-size: 1.8rem; }
+
+        /* 飄浮幾何圖形 */
+        .contact-shape {
+            position: absolute;
+            opacity: 0.35;
+            z-index: 2;
+            animation: floatShape 8s infinite ease-in-out;
+        }
+
+        .contact-shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 16px solid var(--primary);
+        }
+
+        .contact-shape.circle {
+            width: 14px;
+            height: 14px;
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+        }
+
+        .contact-shape.diamond {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            transform: rotate(45deg);
+        }
+
+        .contact-shape:nth-child(5) { top: 25%; left: 5%; animation-delay: 0.5s; }
+        .contact-shape:nth-child(6) { bottom: 30%; right: 6%; animation-delay: 2.5s; }
+        .contact-shape:nth-child(7) { top: 60%; left: 10%; animation-delay: 4s; }
+        .contact-shape:nth-child(8) { top: 15%; right: 12%; animation-delay: 1s; }
+        .contact-shape:nth-child(9) { bottom: 15%; left: 20%; animation-delay: 3.5s; }
+        .contact-shape:nth-child(10) { top: 45%; right: 22%; animation-delay: 2s; }
+
+        @keyframes floatNote {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.35; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .contact-item span {
+            font-size: 1.5rem;
+        }
+
+        /* 營業時間 */
+        .business-hours {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px 40px;
+            border-radius: var(--radius-md);
+            display: inline-block;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .business-hours h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .business-hours p {
+            color: var(--text-dark);
+        }
+
+        /* Google Map 容器 */
+        .map-container {
+            margin-bottom: 40px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .map-container iframe {
+            display: block;
+        }
+
+        /* 社群連結按鈕 */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 30px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .social-btn.facebook {
+            background: #1877f2;
+            color: white;
+        }
+
+        .social-btn.facebook:hover {
+            background: #0d65d9;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(24, 119, 242, 0.4);
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .social-btn.instagram:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(225, 48, 108, 0.4);
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           Lightbox
+           ======================================== */
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 45px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+
+        /* ========================================
+           動畫
+           ======================================== */
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* ========================================
+           RWD 響應式設計
+           ======================================== */
+        
+        @media (max-width: 992px) {
+            .room-detail-card.active {
+                grid-template-columns: 1fr;
+            }
+
+            .room-text-info {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero {
+                background-attachment: scroll;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .features {
+                padding: 60px 20px;
+                gap: 20px;
+            }
+
+            .rooms-section {
+                padding: 60px 15px;
+            }
+
+            .tab-btn-room {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .contact-details {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .carousel-btn.prev { left: 10px; }
+            .carousel-btn.next { right: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+
+            .room-text-info {
+                padding: 30px 20px;
+            }
+
+            .room-text-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .btn-booking-main {
+                padding: 16px 40px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>DONZ 包廂預約狀況總覽</h1>
-    <p class="description">
-      目前僅開放 21 天內的預約。<br>
-      <span>預約完成之後將於十分鐘內更新至此行事曆，如預約後超過十分鐘未顯示您的預約，請私訊 Donz FB 粉專確認。每個時段的最後半小時為系統預設的清潔時間，例如：預約12：00-15：00三小時歡唱，時間表會顯示預約時段為12：00-15：30，當中15：00-15：30為櫃檯人員清潔時段。</span>
-    </p>
-  </header>
-  <main>
-    <label class="selector">
-      查看單一包廂預約狀況：
-      <select onchange="changeCalendar(this.value)">
-        <option value="all">整合總表</option>
-        <option value="A">A 包廂</option>
-        <option value="B">B 包廂</option>
-        <option value="C">C 包廂</option>
-        <option value="D">D 包廂</option>
-        <option value="E">E 包廂</option>
-        <option value="F">F 包廂</option>
-      </select>
-    </label>
 
-    <div class="calendar-wrapper">
-      <iframe id="calendar" src="https://calendar.google.com/calendar/embed?src=c_9a66b6765eda14a2388e7a936783aa44f94ffbb2a997a6fb984fc29c2f5f0074%40group.calendar.google.com&ctz=Asia%2FTaipei"></iframe>
+    <!-- 導覽列 -->
+    <nav id="navbar">
+        <img src="head.png" alt="DONZ 日韓文KTV" class="logo-img" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="nav-links">
+            <a href="#intro">特色</a>
+            <a href="#rooms">包廂介紹</a>
+            <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve">立即預約</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- 手機版選單 -->
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+    <div class="mobile-menu">
+        <a href="#intro" onclick="toggleMenu()">特色</a>
+        <a href="#rooms" onclick="toggleMenu()">包廂介紹</a>
+        <a href="#contact" onclick="toggleMenu()">聯絡我們</a>
+        <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-mobile">立即預約</a>
     </div>
 
-    <div class="rooms">
-      <div class="room-card A">(A) 超大包廂｜6~25人｜Joysound Max2</div>
-      <div class="room-card B">(B) 大包廂｜3~15人｜Joysound Max</div>
-      <div class="room-card C">(C) 大包廂｜3~15人｜Joysound Max</div>
-      <div class="room-card D">(D) 中包廂｜1~10人｜DAM XG7000</div>
-      <div class="room-card E">(E) 中包廂｜1~10人｜Joysound Max</div>
-      <div class="room-card F">(F) 中包廂｜1~10人｜Joysound Max</div>
+    <!-- Hero 區塊 -->
+    <header class="hero">
+        <!-- 飄浮圓點 -->
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        
+        <!-- 飄浮音符和麥克風 (白色半透明) -->
+
+        <svg class="hero-float-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <svg class="hero-float-icon mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+        <svg class="hero-float-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <svg class="hero-float-icon mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+        
+        <div class="hero-content">
+            <h1>Welcome to DONZ!</h1>
+            <p>DONZ 引進日本JOYSOUND及DAM機種</p>
+            <p>希望提供給喜歡日本或韓文歌曲的同好們享受舒適的歌唱空間。</p>
+            <p>期待各位咚咚們的到來~讓我們一起DONZ、DONZ吧！</p>
+            <a href="#rooms" class="hero-btn">看包廂 Look Room ↓</a>
+        </div>
+
+        <div class="scroll-hint">
+            <span></span>
+        </div>
+    </header>
+
+    <!-- 特色區塊 -->
+    <section id="intro" class="features">
+        <div class="feature-box">
+            <div class="feature-icon">🎵</div>
+            <div class="feature-title">日韓同步新曲庫</div>
+            <p>JOYSOUND & DAM 原裝機，動漫新番、JPOP、韓團主打即時更新！</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">💎</div>
+            <div class="feature-title">頂級影音設備</div>
+            <p>高規格大螢幕 x BMB旗艦級音響 x 鐵三角麥克風，讓你在包廂開演唱會！</p>
+        </div>
+        <div class="feature-box">
+            <div class="feature-icon">📍</div>
+            <div class="feature-title">地點超方便</div>
+            <p>捷運圓山站走路8分鐘，逛完場次過馬路就到！</p>
+        </div>
+    </section>
+
+    <!-- 包廂介紹 -->
+    <section id="rooms" class="rooms-section">
+        <h2 class="section-title">主題風格包廂</h2>
+        <p class="section-subtitle">絕對是台灣最美日K！來唱歌還可以棚拍、錄影片、安排應援活動，打卡就被問在哪裡！點選包廂代號查看介紹。</p>
+
+        <div class="room-tabs-nav">
+            <button class="tab-btn-room active" onclick="showRoom('A')">A 包廂</button>
+            <button class="tab-btn-room" onclick="showRoom('B')">B 包廂</button>
+            <button class="tab-btn-room" onclick="showRoom('C')">C 包廂</button>
+            <button class="tab-btn-room" onclick="showRoom('D')">D 包廂</button>
+            <button class="tab-btn-room" onclick="showRoom('E')">E 包廂</button>
+            <button class="tab-btn-room" onclick="showRoom('F')">F 包廂</button>
+        </div>
+
+        <div class="room-content-display">
+            
+            <!-- Room A -->
+            <div id="room-A" class="room-detail-card active">
+                <div class="room-carousel-area">
+                    <div id="room-A-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('A', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('A', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);">超大包廂 | 科技藍</span>
+                    <h3>A-Cyber Party Room</h3>
+                    <span class="machine-info">機台：JOYSOUND MAX2 </span>
+                    <p>【建議人數 6~25人】寬敞大空間，適合團體聚會、應援活動、社團派對等。包廂有一台75吋大型螢幕及兩台65吋大螢幕，搭配BMB旗艦級音響，打造沉浸式視聽體驗。</p>
+                    <div class="room-price-info">
+                        <h4>消費費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>限6人以上訂位：平日早場約$260~400/人/3H 起</li>
+                            <li>提供「咚咚放題」平日白天8小時優惠
+</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+            <!-- Room B -->
+            <div id="room-B" class="room-detail-card">
+                <div class="room-carousel-area">
+                    <div id="room-B-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('B', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('B', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">大包廂 | 網美白</span>
+                    <h3>B-White Dream Room</h3>
+                    <span class="machine-info">機台：JOYSOUND MAX</span>
+                    <p>【建議人數 3~15人】清新可愛風格，白色調搭配可變色水波紋燈，超級適合聚會拍照！中大型空間，配備75吋大型螢幕，高顏值打卡必備。</p>
+                    <div class="room-price-info">
+                        <h4>主要費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>限3人以上訂位：平日早場約$300~480/人/3H 起</li>
+                            <li>提供「咚咚放題」平日白天8小時優惠</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+            <!-- Room C -->
+            <div id="room-C" class="room-detail-card">
+                <div class="room-carousel-area">
+                    <div id="room-C-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('C', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('C', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #c9a87c 0%, #8b6914 100%);">大包廂 | 日式禪風</span>
+                    <h3>C-Zen Wood Room</h3>
+                    <span class="machine-info">機台：JOYSOUND MAX2</span>
+                    <p>【建議人數 3~15人】日系木質和風，一打開感覺馬上置身日本！超大空間搭配75吋大型螢幕，超級適合拍照打卡。</p>
+                    <div class="room-price-info">
+                        <h4>主要費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>限3人以上訂位：平日早場約$300~480/人/3H 起</li>
+                            <li>提供「咚咚放題」平日白天8小時優惠</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+            <!-- Room D -->
+            <div id="room-D" class="room-detail-card">
+                <div class="room-carousel-area">
+                    <div id="room-D-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('D', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('D', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #9bb7d4 0%, #667eea 100%);">中包廂 | 莫蘭迪藍</span>
+                    <h3>D-Morandi Blue Room</h3>
+                    <span class="machine-info">機台：DAM XG7000</span>
+                    <p>【建議人數 1~10人】莫蘭迪藍與奶油色沙發的配色，既清爽又精緻。搭配65吋大螢幕，是中小型聚會的最佳之選。</p>
+                    <div class="room-price-info">
+                        <h4>主要費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>平日早場約$300~1150/人/3H 起</li>
+                            <li>提供「咚咚放題」平日白天8小時優惠</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+            <!-- Room E -->
+            <div id="room-E" class="room-detail-card">
+                <div class="room-carousel-area">
+                    <div id="room-E-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('E', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('E', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);">中包廂 | 暖黃幾何</span>
+                    <h3>E-Warm Geometric Room</h3>
+                    <span class="machine-info">機台：JOYSOUND MAX</span>
+                    <p>【建議人數 1~10人】溫馨明亮暖調，燈光氛圍佳、空間精緻，是DONZ最受歡迎的包廂之一！搭配65吋大螢幕，是中小型聚會的最佳之選。</p>
+                    <div class="room-price-info">
+                        <h4>主要費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>平日早場約$300~1150/人/3H 起</li>
+                            <li>提供「咚咚放題」平日白天8小時優惠</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+            <!-- Room F -->
+            <div id="room-F" class="room-detail-card">
+                <div class="room-carousel-area">
+                    <div id="room-F-carousel" class="carousel-inner" onclick="openLightbox(this.style.backgroundImage)"></div>
+                    <button class="carousel-btn prev" onclick="switchImage('F', 'prev'); event.stopPropagation();">‹</button>
+                    <button class="carousel-btn next" onclick="switchImage('F', 'next'); event.stopPropagation();">›</button>
+                    <div class="carousel-controls">
+                        <div class="carousel-hint">點擊圖片可放大</div>
+                        <div class="carousel-dots">
+                            <span class="active-dot"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-text-info">
+                    <span class="room-tag" style="background: linear-gradient(135deg, #00ffff 0%, #00d4ff 100%);">中包廂 | 未來科技</span>
+                    <h3>F-Future Tech Room</h3>
+                    <span class="machine-info">機台：JOYSOUND MAX2</span>
+                    <p>【建議人數 1~10人】全新裝修的未來感科技風，質感滿分。藍色與粉色霓虹光線交錯。搭配65吋大螢幕，小型聚會也能盡興！超高CP值的選擇。提供台北日K最最最便宜的單人歡唱價格！</p>
+                    <div class="room-price-info">
+                        <h4>主要費率參考 (請查看價目表)</h4>
+                        <ul>
+                            <li>平日早場：$300~690/人/3H 起</li>
+                            <li>特色：少人數最優選、單人歡唱也超便宜</li>
+                        </ul>
+                    </div>
+                    <div class="info-buttons">
+                        <button class="btn-info" onclick="openInfoLightbox('booking-guide')">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            訂位說明
+                        </button>
+                        <button class="btn-info" onclick="openInfoLightbox('rules')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            歡唱規範
+                        </button>
+                    </div>
+                    <a href="https://booking.donzktv.com/" target="_blank" class="btn-reserve-room">立即預約包廂</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 預約區塊 -->
+    <section id="booking" class="booking-section">
+        <!-- 飄浮圓點 -->
+        <div class="booking-bubble"></div>
+        <div class="booking-bubble"></div>
+        <div class="booking-bubble"></div>
+        <div class="booking-bubble"></div>
+        
+        <!-- 飄浮音符和麥克風 (白色半透明) -->
+        <svg class="booking-float-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <svg class="booking-float-icon mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+        <svg class="booking-float-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        
+        <div class="booking-content">
+            <h2>立即預約歡唱</h2>
+            <p>期待各位咚咚們的到來～<br>讓我們一起 DONZ DONZ 吧！</p>
+            <div class="info-buttons-light">
+                <button class="btn-info-light" onclick="openInfoLightbox('booking-guide')">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    訂位說明
+                </button>
+                <button class="btn-info-light" onclick="openInfoLightbox('rules')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    歡唱規範
+                </button>
+            </div>
+            <a href="https://booking.donzktv.com/" target="_blank" class="btn-booking-main">前往預約系統 →</a>
+        </div>
+    </section>
+
+    <!-- 聯絡資訊 -->
+    <section id="contact" class="contact-section">
+        <!-- 飄浮音符 -->
+        <span class="contact-note">♪</span>
+        <span class="contact-note">♫</span>
+        <span class="contact-note">♬</span>
+        <span class="contact-note">♩</span>
+        
+        <!-- 飄浮幾何圖形 -->
+        <div class="contact-shape triangle"></div>
+        <div class="contact-shape circle"></div>
+        <div class="contact-shape diamond"></div>
+        <div class="contact-shape triangle"></div>
+        <div class="contact-shape circle"></div>
+        <div class="contact-shape diamond"></div>
+
+        <div class="contact-container">
+            <h2>DONZ 日韓 KTV</h2>
+            
+            <div class="contact-details">
+                <div class="contact-item">
+                    <span>📍</span>
+                    <div>台北市中山區中山北路三段 53-4 號 2 樓</div>
+                </div>
+                <div class="contact-item">
+                    <span>🚇</span>
+                    <div>捷運圓山站 1 號出口步行 8 分鐘</div>
+                </div>
+                <div class="contact-item">
+                    <span>📞</span>
+                    <div>0919210093</div>
+                </div>
+            </div>
+
+            <!-- Google Map 嵌入 -->
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.001401404665!2d121.52039347605147!3d25.06794163692258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9004618a577%3A0xeeea7f71c0c4a317!2zRG9ueiDml6Xpn5PmlodLVFY!5e0!3m2!1szh-TW!2stw!4v1764658655334!5m2!1szh-TW!2stw"
+                    width="100%" 
+                    height="300" 
+                    style="border:0; border-radius: 20px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div class="business-hours">
+                <h4>🕐 營業時間</h4>
+                <p>週一至週日 09:00 - 23:00（最後入場 20:00）</p>
+            </div>
+
+            <!-- 社群連結 -->
+            <div class="social-links">
+                <a href="https://www.facebook.com/donz.ktv" target="_blank" class="social-btn facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span>Facebook 粉專</span>
+                </a>
+                <a href="https://www.instagram.com/donz.ktv/" target="_blank" class="social-btn instagram">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                    <span>追蹤 IG</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 DONZ KTV. All Rights Reserved. | Made with 💜 in Taipei
+    </footer>
+
+    <!-- Lightbox -->
+    <div id="myLightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="包廂放大圖">
+        </div>
     </div>
 
-    <div class="booking-link">
-      <a href="https://url.ohbot.cc/QGTKRG1j" target="_blank">前往 Donz 預約中心</a>
+    <!-- 訂位說明 Lightbox -->
+    <div id="bookingGuideLightbox" class="info-lightbox" onclick="closeInfoLightbox('booking-guide')">
+        <span class="info-lightbox-close">&times;</span>
+        <div class="info-lightbox-content">
+            <img src="booking guide.jpg" alt="訂位說明">
+        </div>
     </div>
-  </main>
 
-  <script>
-    const calendarUrls = {
-      all: "https://calendar.google.com/calendar/embed?src=c_9a66b6765eda14a2388e7a936783aa44f94ffbb2a997a6fb984fc29c2f5f0074%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      A: "https://calendar.google.com/calendar/embed?src=c_38481422a7c083ee085599e6bbd94ca648c52bc6184a38685a2e8ed27dd6dca7%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      B: "https://calendar.google.com/calendar/embed?src=c_24c355571e7e5266d6bae8da300e64b6927e35bedaff4d648aaba7b4ccc74770%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      C: "https://calendar.google.com/calendar/embed?src=c_76f412a15970d1a65110885076e43ba9ff2abb24a161d1f0be1e3577c8f54849%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      D: "https://calendar.google.com/calendar/embed?src=c_2e9787c93b7739e2911368660927c67534b4884df3ed5173b1751d7b21b19ad0%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      E: "https://calendar.google.com/calendar/embed?src=c_f63b41adc5620d2cfb23cd52fbeba02d3b2966a19bb876fc34b0cf6b84f6fbee%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      F: "https://calendar.google.com/calendar/embed?src=c_c81e01eb17e622dee275838f11d0d0490e631565cffbd56b19bc4977a125b5fb%40group.calendar.google.com&ctz=Asia%2FTaipei"
-    };
+    <!-- 歡唱規範 Lightbox -->
+    <div id="rulesLightbox" class="info-lightbox" onclick="closeInfoLightbox('rules')">
+        <span class="info-lightbox-close">&times;</span>
+        <div class="info-lightbox-content">
+            <img src="rules.jpg" alt="歡唱規範">
+        </div>
+    </div>
 
-    function changeCalendar(value) {
-      document.getElementById("calendar").src = calendarUrls[value];
-    }
-  </script>
+    <script>
+        // ========================================
+        // 圖片設定 - 請確保檔案存在
+        // ========================================
+        const roomImages = {
+            'A': ['A1.png', 'A2.jpg', 'A3.jpg'],
+            'B': ['B1.png', 'B2.jpg', 'B3.jpg'],
+            'C': ['C1.png', 'C2.jpg', 'C3.jpg'],
+            'D': ['D1.png', 'D2.jpg', 'D3.jpg'],
+            'E': ['E1.png', 'E2.jpg', 'E3.jpg'],
+            'F': ['F1.jpg', 'F2.jpg', 'F3.jpg'],
+        };
+
+        let currentImageIndex = { 'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0 };
+
+        // ========================================
+        // 漢堡選單
+        // ========================================
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.menu-overlay');
+            
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // ========================================
+        // 導覽列滾動效果
+        // ========================================
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ========================================
+        // 滾動動畫 (Intersection Observer)
+        // ========================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate-in');
+                    }, index * 150);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-box').forEach(box => {
+            observer.observe(box);
+        });
+
+        // ========================================
+        // Lightbox
+        // ========================================
+        function openLightbox(backgroundImageURL) {
+            const urlMatch = backgroundImageURL.match(/url\(['"]?(.*?)['"]?\)/i);
+            if (urlMatch && urlMatch[1]) {
+                document.getElementById('lightboxImage').src = urlMatch[1];
+                document.getElementById('myLightbox').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeLightbox() {
+            document.getElementById('myLightbox').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // ESC 鍵關閉 Lightbox
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeInfoLightbox('booking-guide');
+                closeInfoLightbox('rules');
+            }
+        });
+
+        // ========================================
+        // 訂位說明 & 歡唱規範 Lightbox
+        // ========================================
+        function openInfoLightbox(type) {
+            if (type === 'booking-guide') {
+                document.getElementById('bookingGuideLightbox').style.display = 'block';
+            } else if (type === 'rules') {
+                document.getElementById('rulesLightbox').style.display = 'block';
+            }
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfoLightbox(type) {
+            if (type === 'booking-guide') {
+                document.getElementById('bookingGuideLightbox').style.display = 'none';
+            } else if (type === 'rules') {
+                document.getElementById('rulesLightbox').style.display = 'none';
+            }
+            document.body.style.overflow = '';
+        }
+
+        // ========================================
+        // 圖片輪播
+        // ========================================
+        function switchImage(roomId, direction) {
+            const imageList = roomImages[roomId];
+            let currentIndex = currentImageIndex[roomId];
+            const totalImages = imageList.length;
+
+            if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % totalImages;
+            } else if (direction === 'prev') {
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            }
+
+            const carousel = document.getElementById('room-' + roomId + '-carousel');
+            if (carousel) {
+                carousel.style.backgroundImage = `url('${imageList[currentIndex]}')`;
+            }
+
+            const roomArea = document.getElementById('room-' + roomId);
+            const dotContainer = roomArea ? roomArea.querySelector('.carousel-dots') : null;
+
+            if (dotContainer) {
+                dotContainer.querySelectorAll('span').forEach((dot, index) => {
+                    dot.classList.toggle('active-dot', index === currentIndex);
+                });
+            }
+
+            currentImageIndex[roomId] = currentIndex;
+        }
+
+        // ========================================
+        // Tab 切換
+        // ========================================
+        function showRoom(roomId) {
+            // 隱藏所有包廂
+            document.querySelectorAll('.room-detail-card').forEach(room => {
+                room.classList.remove('active');
+            });
+
+            // 顯示選中的包廂
+            const activeRoom = document.getElementById('room-' + roomId);
+            if (activeRoom) {
+                activeRoom.classList.add('active');
+            }
+
+            // 更新 Tab 按鈕狀態
+            document.querySelectorAll('.tab-btn-room').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 重設圖片為第一張
+            currentImageIndex[roomId] = 0;
+            const carousel = document.getElementById('room-' + roomId + '-carousel');
+            if (carousel && roomImages[roomId]) {
+                carousel.style.backgroundImage = `url('${roomImages[roomId][0]}')`;
+            }
+
+            // 重設 dots
+            const roomArea = document.getElementById('room-' + roomId);
+            const dotContainer = roomArea ? roomArea.querySelector('.carousel-dots') : null;
+            if (dotContainer) {
+                dotContainer.querySelectorAll('span').forEach((dot, index) => {
+                    dot.classList.toggle('active-dot', index === 0);
+                });
+            }
+        }
+
+        // ========================================
+        // 初始化
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化所有包廂的第一張圖
+            Object.keys(roomImages).forEach(roomId => {
+                const carousel = document.getElementById('room-' + roomId + '-carousel');
+                if (carousel && roomImages[roomId] && roomImages[roomId][0]) {
+                    carousel.style.backgroundImage = `url('${roomImages[roomId][0]}')`;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
